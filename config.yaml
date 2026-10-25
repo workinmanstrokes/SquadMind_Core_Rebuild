@@ -1,0 +1,31 @@
+# SquadMind Core Configuration Profile
+
+capture:
+  source: 1                 # MiraBox Video Capture (confirmed via tools_find_capture_index.py)
+                             # NOTE: this index has shifted between 1 and 2 across sessions/reboots.
+                             # Re-run tools_find_capture_index.py to reconfirm if capture ever goes dark.
+  width: 1920
+  height: 1080
+  fps: 60
+  mock_mode: false          # Physical capture card confirmed live at index 2
+
+detector:
+  model_path: null          # YOLO disabled: nothing in state_machine.py consumes its detections yet,
+                             # and it was the sole cause of the ~1-2 FPS ceiling (~500-1300ms/frame).
+                             # Set back to "yolov8n.pt" once a feature actually reads analysis["detections"].
+  conf_threshold: 0.45
+  hud_tracking_enabled: true
+
+state_machine:
+  debounce_seconds: 0.6
+  confidence_frames: 3
+
+voice:
+  enabled: true
+  min_interval_seconds: 3.0
+
+controller:
+  enabled: true
+  port: "/dev/ttyUSB0"      # Serial port for Cronus Zen / Titan Two adapter
+  baudrate: 115200
+  mock_mode: true           # Emulate commands if physical hardware is unattached
